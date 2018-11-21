@@ -1,0 +1,9 @@
+.ligne {
+    display: flex;
+    flex-wrap: nowrap;
+    
+}
+
+.qte {
+    width: 10px;
+}
