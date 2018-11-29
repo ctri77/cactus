@@ -1,14 +1,14 @@
 const initialState = {
   formulaire: {
-     titre: "",
+     title: "",
      image1: "",
      image2: "",
      description: "",
-     hauteur: 0,
-     prix: 0,
+     height: 0,
+     price: 0,
      stock: 0,
-     categorie: "",
-     sous_categorie: "" 
+     category: "",
+     sub_category: "" 
   },
   loading: false,
   error: null
@@ -25,7 +25,7 @@ const formProduct = (state = initialState, action) => {
               formulaire: tempFormChange,    
           }
           return newState;
-      case 'POST_PRODUCTS_BEGIN':
+      case 'POST_PRODUCT_ADMIN_BEGIN':
           newState = {
               ...state,
               loading: true,
@@ -33,17 +33,17 @@ const formProduct = (state = initialState, action) => {
             };
           return newState;
     
-      case 'POST_PRODUCTS_SUCCESS':
+      case 'POST_PRODUCT_ADMIN_SUCCESS':
           let tempFormSubmit = {
-              titre: "",
+              title: "",
               image1: "",
               image2: "",
               description: "",
-              prix: 0,
+              price: 0,
               stock: 0,
-              hauteur: 0,
-              categorie: "",
-              sous_categorie: "" 
+              height: 0,
+              category: "",
+              sub_category: "" 
           }
           newState = {
               ...state,
@@ -52,7 +52,7 @@ const formProduct = (state = initialState, action) => {
           };
           return newState;
     
-      case 'POST_PRODUCTS_FAILURE':
+      case 'POST_PRODUCT_ADMIN_FAILURE':
       newState = {
           ...state,
           loading: false,
@@ -61,14 +61,14 @@ const formProduct = (state = initialState, action) => {
         };     
           return newState; 
 
-      case 'FETCH_PRODUCT_ID_BEGIN':
+      case 'GET_PRODUCT_ID_ADMIN_BEGIN':
           newState = {
               ...state,
               loading: true,
               error: null
             };    
           return newState;
-      case 'FETCH_PRODUCT_ID_SUCCESS':
+      case 'GET_PRODUCT_ID_ADMIN_SUCCESS':
           newState = {
               ...state,
               loading: false,
@@ -77,7 +77,7 @@ const formProduct = (state = initialState, action) => {
             
           return newState;
     
-      case 'FETCH_PRODUCT_ID_FAILURE':
+      case 'GET_PRODUCT_ID_ADMIN_FAILURE':
           newState = {
               ...state,
               loading: false,
@@ -85,6 +85,42 @@ const formProduct = (state = initialState, action) => {
               formulaire: {}
             };    
           return newState;
+      case 'PUT_PRODUCT_ADMIN_BEGIN':
+          newState = {
+              ...state,
+              loading: true,
+              error: null
+            };
+          return newState;
+    
+      case 'PUT_PRODUCT_ADMIN_SUCCESS':
+          let tempFormPut = {
+              title: "",
+              image1: "",
+              image2: "",
+              description: "",
+              price: 0,
+              stock: 0,
+              height: 0,
+              category: "",
+              sub_category: "" 
+          }
+          newState = {
+              ...state,
+              loading: false,
+              formulaire: tempFormPut,   
+          };
+          return newState;
+    
+      case 'PUT_PRODUCT_ADMIN_FAILURE':
+      newState = {
+          ...state,
+          loading: false,
+          error: action.error,
+          formulaire:  {}
+        };     
+          return newState; 
+  
       default:
 
           return state;

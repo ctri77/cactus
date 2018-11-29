@@ -3,14 +3,14 @@ export const subQte = (id) => ({
   id
 })
 
-export const addQte = (id) => ({
+export const addQte = (id, stock) => ({
   type: 'ADDQTE',
-  id
+  id, stock
 })
 
-export const ajoutPanier = (id, titre, qte, prix) => ({
+export const ajoutPanier = (id, title, qte, price, stock) => ({
   type: 'ADDPANIER',
-  id, titre, qte, prix
+  id, title, qte, price, stock
 })
 
 export const subQtePanier = (id) => ({
@@ -18,29 +18,14 @@ export const subQtePanier = (id) => ({
   id
 })
 
-export const addQtePanier = (id) => ({
+export const addQtePanier = (id, stock) => ({
   type: 'ADDQTEPANIER',
-  id
+  id, stock
 })
 
-export const subPanier = (index, qte, prix) => ({
+export const subPanier = (index, qte, price) => ({
   type: 'SUBPANIER',
-  index, qte, prix
-})
-
-export const addProd = (id) => ({
-type: 'ADDPROD',
-id
-})
-
-export const modifProd = (id) => ({
-type: 'MODIFPROD',
-id
-})
-
-export const supProd = (id) => ({
-type: 'SUPPROD',
-id
+  index, qte, price
 })
 
 export const handleChange = (e) => ({
@@ -52,3 +37,4 @@ export const handleSelect = (e) => ({
   type: 'SELECT',
   e
 })  
+

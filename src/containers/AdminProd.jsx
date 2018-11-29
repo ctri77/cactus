@@ -6,28 +6,35 @@ import { bindActionCreators } from 'redux';
 import { handleChange } from '../actions';
 import Bouton from '../components/Bouton';
 import { Link } from 'react-router-dom';
-import { postProducts } from "../actions/productPostActions";
-import { fetchProductID } from "../actions/productFetchIDActions";
-
+import { postProductAdmin } from "../actions/postProductAdmin";
+import { getProductIDAdmin } from "../actions/getProductIDAdmin";
+import { putProductAdmin } from "../actions/putProductAdmin";
 
 
 class AdminProd extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            typeAction: "",
+        }
+    }
     componentDidMount() {
         let id = this.props.match.params.id;
-        if (id !== undefined) {
-            this.props.fetchProductID(id);
-        }
-   
-       
+        let typeAction = this.props.location.state.typeAction;
+        this.setState({typeAction : this.props.location.state.typeAction});
+        if (typeAction === "M") {
+            this.props.getProductIDAdmin(id);
+        }   
     }
+    
     render() {
         
         let tabSousCategoriePlantes = ["Veuillez sélectionner", "Cactus", "Succulentes", "Orchidées", "Bonzaïs"];
         let tabSousCategorieBijoux = ["Veuillez sélectionner", "Bagues", "Bracelets", "Colliers"];   
         let tabTemp = [];
-        if (this.props.formulaire.categorie === "Plantes") {
+        if (this.props.formulaire.category === "Plantes") {
             tabTemp = tabSousCategoriePlantes;
-        } else if (this.props.formulaire.categorie === "Bijoux") {
+        } else if (this.props.formulaire.category === "Bijoux") {
             tabTemp = tabSousCategorieBijoux;
         } else {
             tabTemp = [];
@@ -45,11 +52,16 @@ class AdminProd extends Component {
             <Container>
                 <Form onSubmit={(e) => {
                     e.preventDefault();
-                    this.props.postProducts(this.props.formulaire, e)}}>
+                    if (this.state.typeAction === "C") {
+                        this.props.postProductAdmin(this.props.formulaire);
+                    } else {
+                        this.props.putProductAdmin(this.props.formulaire);
+                    }
+                    }}>
                     <FormGroup row>
-                        <Label for="titre" sm={2}>Titre : </Label>
+                        <Label for="title" sm={2}>Titre : </Label>
                         <Col sm={10}>
-                            <Input type="text" name="titre" id="titre" value={this.props.formulaire.titre} onChange={(e) => this.props.handleChange(e)} />
+                            <Input type="text" name="title" id="title" value={this.props.formulaire.title} onChange={(e) => this.props.handleChange(e)} />
                         </Col>
                     </FormGroup>    
                     <FormGroup row>
@@ -69,31 +81,31 @@ class AdminProd extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="prix" sm={2}>Prix en € : </Label>
+                        <Label for="price" sm={2}>Prix en € : </Label>
                         <Col sm={2}>
-                            <Input type="number" step="1" name="prix" id="prix" value={this.props.formulaire.prix} onChange={(e) => this.props.handleChange(e)} />
+                            <Input type="number" step="1" name="price" id="price" value={this.props.formulaire.price} onChange={(e) => this.props.handleChange(e)} />
                         </Col>
                         <Label for="stock" sm={2}>Stock : </Label>
                         <Col sm={2}>
                             <Input type="number" step="1" name="stock" id="stock" value={this.props.formulaire.stock} onChange={(e) => this.props.handleChange(e)} />
                         </Col>
-                        <Label for="hauteur" sm={2}>Hauteur en cm : </Label>
+                        <Label for="height" sm={2}>Hauteur en cm : </Label>
                         <Col sm={2}>
-                            <Input type="number" step="1" name="hauteur" id="hauteur" value={this.props.formulaire.hauteur} onChange={(e) => this.props.handleChange(e)} />
+                            <Input type="number" step="1" name="height" id="height" value={this.props.formulaire.height} onChange={(e) => this.props.handleChange(e)} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="categorie" sm={2}>Catégorie : </Label>
+                        <Label for="category" sm={2}>Catégorie : </Label>
                         <Col sm={4}>
-                            <Input value={this.props.formulaire.categorie} type="select" name="categorie" id="categorie" onChange={(e) => this.props.handleChange(e)} >
+                            <Input value={this.props.formulaire.category} type="select" name="category" id="category" onChange={(e) => this.props.handleChange(e)} >
                                 <option>Veuillez sélectionner</option>
                                 <option value="Plantes">Plantes</option>
                                 <option value="Bijoux">Bijoux</option>
                             </Input>
                         </Col>
-                        <Label for="sous_categorie" sm={2}>Sous-catégorie : </Label>
+                        <Label for="sub_category" sm={2}>Sous-catégorie : </Label>
                         <Col sm={4}>
-                            <Input value={this.props.formulaire.sous_categorie} type="select" name="sous_categorie" id="sous_categorie" onChange={(e) => this.props.handleChange(e)}>
+                            <Input value={this.props.formulaire.sub_category} type="select" name="sub_category" id="sub_category" onChange={(e) => this.props.handleChange(e)}>
                                 {tabTemp.map((item, index) => (                                   
                                     <option value={item} key={index}>{item}</option>
                                 ))}
@@ -104,7 +116,6 @@ class AdminProd extends Component {
                     <Row className="ligneBoutons">
                         <Bouton name="Valider" />
                         <Link to={{ pathname: '/adminaccueil' }}><Bouton name="Annuler" /></Link>
-                        <Link to={{ pathname: '/adminaccueil' }}><Bouton name="Retour" /></Link>
                     </Row>          
     
                 </Form>
@@ -116,7 +127,7 @@ class AdminProd extends Component {
 };
 
 function mdtp(dispatch) {
-    return bindActionCreators({postProducts, fetchProductID, handleChange}, dispatch);
+    return bindActionCreators({postProductAdmin, getProductIDAdmin, putProductAdmin, handleChange}, dispatch);
 }
 function mstp(state) {
     
